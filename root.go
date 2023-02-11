@@ -7,6 +7,7 @@ import (
 
 func rootHandle(w http.ResponseWriter, r *http.Request) {
 	realIp := getIp(r)
+	w.Header().Add("Cache-Control", "no-store")
 	fmt.Fprintf(w, `ip_addr: %v
 user_agent: %v
 method: %v

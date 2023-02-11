@@ -26,5 +26,6 @@ func jsonHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Add("content-type", "application/json; charset=utf-8")
+	w.Header().Add("Cache-Control", "no-store")
 	w.Write(jsonData)
 }
