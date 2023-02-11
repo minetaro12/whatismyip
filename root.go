@@ -7,5 +7,9 @@ import (
 
 func rootHandle(w http.ResponseWriter, r *http.Request) {
 	realIp := getIp(r)
-	fmt.Fprintf(w, "ip_addr: %v\nuser_agent: %v\nmethod: %v", realIp, r.Header.Get("user-agent"), r.Method)
+	fmt.Fprintf(w, `ip_addr: %v
+user_agent: %v
+method: %v
+forwarded: %v`,
+		realIp, r.Header.Get("user-agent"), r.Method, r.Header.Get("X-Forwarded-For"))
 }

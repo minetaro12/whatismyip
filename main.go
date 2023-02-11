@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -29,10 +29,11 @@ func errorResponse(w http.ResponseWriter) {
 }
 
 func getIp(r *http.Request) string {
-	if r.Header.Get("X-Forwarded-For") == "" {
-		return strings.Split(r.RemoteAddr, ":")[0]
+	if r.Header.Get("X-Real-IP") == "" {
+		host, _, _ := net.SplitHostPort(r.RemoteAddr)
+		return host
 	} else {
-		return r.Header.Get("X-Forwarded-For")
+		return r.Header.Get("X-Real-IP")
 	}
 }
 
