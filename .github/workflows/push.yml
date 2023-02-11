@@ -1,4 +1,4 @@
-name: develop - Build and Push
+name: Docker build
 
 on:
   workflow_dispatch:
