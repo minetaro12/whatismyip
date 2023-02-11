@@ -8,10 +8,15 @@ import (
 	"os"
 )
 
+var (
+	httpListen   string = fmt.Sprintf(":%v", getEnv("PORT", "8000"))
+	realIPHeader string = getEnv("REAL_IP_HEADER", "NONE")
+)
+
 func main() {
-	httpListen := fmt.Sprintf(":%v", getEnv("PORT", "8000"))
 	http.HandleFunc("/", rootHandle)
 	http.HandleFunc("/json", jsonHandle)
+
 	log.Println("Server Listening on", httpListen)
 	log.Fatal(http.ListenAndServe(httpListen, logRequest(http.DefaultServeMux)))
 }
@@ -29,11 +34,11 @@ func errorResponse(w http.ResponseWriter) {
 }
 
 func getIp(r *http.Request) string {
-	if r.Header.Get("X-Real-IP") == "" {
+	if realIPHeader == "NONE" {
 		host, _, _ := net.SplitHostPort(r.RemoteAddr)
 		return host
 	} else {
-		return r.Header.Get("X-Real-IP")
+		return r.Header.Get(realIPHeader)
 	}
 }
 
