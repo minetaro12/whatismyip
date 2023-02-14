@@ -11,6 +11,7 @@ func rootHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `ip_addr: %v
 user_agent: %v
 method: %v
+encoding: %v
 forwarded: %v`,
-		realIp, r.Header.Get("user-agent"), r.Method, r.Header.Get("X-Forwarded-For"))
+		realIp, r.Header.Get("user-agent"), r.Method, r.Header.Get("Accept-Encoding"), r.Header.Get("X-Forwarded-For"))
 }
